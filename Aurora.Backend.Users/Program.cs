@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var version = "v1.0.0.0";
+var version = "v1.0.0.1";
 var appName = "Users";
 
 builder.Services.AddControllers().AddNewtonsoftJson();

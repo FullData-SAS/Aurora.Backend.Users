@@ -125,7 +125,7 @@ public class UserService : IUserService
         Result<UserUpdateModel> result = new Result<UserUpdateModel>();
         try
         {
-            var resultQuery = await _unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Email == email && x.PasswordHash == password);
+            var resultQuery = await _unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Email == email && x.PasswordHash == password.ToUpper());
 
             if (resultQuery != null)
                 result = new Result<UserUpdateModel>
