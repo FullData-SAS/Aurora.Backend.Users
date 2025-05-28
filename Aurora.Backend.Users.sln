@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aurora.Backend.Users", "Aurora.Backend.Users\Aurora.Backend.Users.csproj", "{4082D7C9-43AC-4421-9D77-4B71BF3E7888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aurora.Backend.Users.Services", "Aurora.Backend.Users.Services\Aurora.Backend.Users.Services.csproj", "{B362FEAB-35DC-42B5-BF34-6F347741F60B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4082D7C9-43AC-4421-9D77-4B71BF3E7888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4082D7C9-43AC-4421-9D77-4B71BF3E7888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4082D7C9-43AC-4421-9D77-4B71BF3E7888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4082D7C9-43AC-4421-9D77-4B71BF3E7888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B362FEAB-35DC-42B5-BF34-6F347741F60B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B362FEAB-35DC-42B5-BF34-6F347741F60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B362FEAB-35DC-42B5-BF34-6F347741F60B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B362FEAB-35DC-42B5-BF34-6F347741F60B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
