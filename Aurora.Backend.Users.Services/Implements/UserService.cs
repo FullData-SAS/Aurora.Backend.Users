@@ -18,19 +18,19 @@ public class UserService : IUserService
         _logger = logger;
     }
 
-    public async Task<Result<IEnumerable<UserUpdateModel>>> GetAll()
+    public async Task<Result<IEnumerable<UserResponseModel>>> GetAll()
     {
-        Result<IEnumerable<UserUpdateModel>> result = new Result<IEnumerable<UserUpdateModel>>();
+        Result<IEnumerable<UserResponseModel>> result = new Result<IEnumerable<UserResponseModel>>();
         try
         {
             var resultQuery = await _unitOfWork.GetRepository<AppUser>().GetAllAsync();
 
             if (resultQuery.Count() > 0)
-                result = new Result<IEnumerable<UserUpdateModel>>
+                result = new Result<IEnumerable<UserResponseModel>>
                 {
                     Message = EResult.SUCCESS.ToString(),
                     Status = EResult.SUCCESS,
-                    Response = resultQuery.Select(x => new UserUpdateModel
+                    Response = resultQuery.Select(x => new UserResponseModel
                     {
                         Id = x.Id,
                         FirstName = x.FirstName,
@@ -39,16 +39,12 @@ public class UserService : IUserService
                         DocumentNumber = x.DocumentNumber,
                         PhoneNumber = x.PhoneNumber,
                         Email = x.Email,
-                        PasswordHash = x.PasswordHash,
                         GroupId = x.GroupId,
-                        LastLogin = x.LastLogin,
-                        Active = x.Active,
-                        CreatedAt = x.CreatedAt,
-                        UpdatedAt = x.UpdatedAt
+                        Active = x.Active
                     })
                 };
             else
-                result = new Result<IEnumerable<UserUpdateModel>>
+                result = new Result<IEnumerable<UserResponseModel>>
                 {
                     Message = EResult.NO_RESULT.ToString(),
                     Status = EResult.NO_RESULT,
@@ -58,7 +54,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError($"{ex.Message} {ex.InnerException?.Message}");
-            result = new Result<IEnumerable<UserUpdateModel>>
+            result = new Result<IEnumerable<UserResponseModel>>
             {
                 Message = EResult.ERROR.ToString(),
                 Status = EResult.ERROR,
@@ -69,19 +65,19 @@ public class UserService : IUserService
         return result;
     }
     
-    public async Task<Result<UserUpdateModel>> Get(Guid guid)
+    public async Task<Result<UserResponseModel>> Get(Guid guid)
     {
-        Result<UserUpdateModel> result = new Result<UserUpdateModel>();
+        Result<UserResponseModel> result = new Result<UserResponseModel>();
         try
         {
             var resultQuery = await _unitOfWork.GetRepository<AppUser>().GetByIdAsync(guid);
 
             if (resultQuery != null)
-                result = new Result<UserUpdateModel>
+                result = new Result<UserResponseModel>
                 {
                     Message = EResult.SUCCESS.ToString(),
                     Status = EResult.SUCCESS,
-                    Response = new UserUpdateModel
+                    Response = new UserResponseModel
                     {
                         Id = resultQuery.Id,
                         FirstName = resultQuery.FirstName,
@@ -90,16 +86,12 @@ public class UserService : IUserService
                         DocumentNumber = resultQuery.DocumentNumber,
                         PhoneNumber = resultQuery.PhoneNumber,
                         Email = resultQuery.Email,
-                        PasswordHash = resultQuery.PasswordHash,
                         GroupId = resultQuery.GroupId,
-                        LastLogin = resultQuery.LastLogin,
-                        Active = resultQuery.Active,
-                        CreatedAt = resultQuery.CreatedAt,
-                        UpdatedAt = resultQuery.UpdatedAt
+                        Active = resultQuery.Active
                     }
                 };
             else
-                result = new Result<UserUpdateModel>
+                result = new Result<UserResponseModel>
                 {
                     Message = EResult.NO_RESULT.ToString(),
                     Status = EResult.NO_RESULT,
@@ -109,7 +101,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError($"{ex.Message} {ex.InnerException?.Message}");
-            result = new Result<UserUpdateModel>
+            result = new Result<UserResponseModel>
             {
                 Message = EResult.ERROR.ToString(),
                 Status = EResult.ERROR,
@@ -120,19 +112,19 @@ public class UserService : IUserService
         return result;
     }
     
-    public async Task<Result<UserUpdateModel>> Login(string email, string password)
+    public async Task<Result<UserResponseModel>> Login(string email, string password)
     {
-        Result<UserUpdateModel> result = new Result<UserUpdateModel>();
+        Result<UserResponseModel> result = new Result<UserResponseModel>();
         try
         {
             var resultQuery = await _unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Email == email && x.PasswordHash == password.ToUpper());
 
             if (resultQuery != null)
-                result = new Result<UserUpdateModel>
+                result = new Result<UserResponseModel>
                 {
                     Message = EResult.SUCCESS.ToString(),
                     Status = EResult.SUCCESS,
-                    Response = new UserUpdateModel
+                    Response = new UserResponseModel
                     {
                         Id = resultQuery.Id,
                         FirstName = resultQuery.FirstName,
@@ -141,16 +133,12 @@ public class UserService : IUserService
                         DocumentNumber = resultQuery.DocumentNumber,
                         PhoneNumber = resultQuery.PhoneNumber,
                         Email = resultQuery.Email,
-                        PasswordHash = resultQuery.PasswordHash,
                         GroupId = resultQuery.GroupId,
-                        LastLogin = resultQuery.LastLogin,
                         Active = resultQuery.Active,
-                        CreatedAt = resultQuery.CreatedAt,
-                        UpdatedAt = resultQuery.UpdatedAt
                     }
                 };
             else
-                result = new Result<UserUpdateModel>
+                result = new Result<UserResponseModel>
                 {
                     Message = EResult.NO_RESULT.ToString(),
                     Status = EResult.NO_RESULT,
@@ -160,7 +148,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError($"{ex.Message} {ex.InnerException?.Message}");
-            result = new Result<UserUpdateModel>
+            result = new Result<UserResponseModel>
             {
                 Message = EResult.ERROR.ToString(),
                 Status = EResult.ERROR,
