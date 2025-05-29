@@ -261,7 +261,7 @@ public class UserService : IUserService
         Result<bool> result = new Result<bool>();
         try
         {
-            var resultQuery = await _unitOfWork.GetRepository<AppUser>().GetByIdAsync(guid);
+            var resultQuery = await _unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == guid && x.Active == true);
             if (resultQuery == null)
                 return new Result<bool>
                 {
