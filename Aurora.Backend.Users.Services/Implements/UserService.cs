@@ -4,6 +4,8 @@ using Aurora.Backend.Users.Services.Contracts;
 using Aurora.Backend.Users.Services.Enumerables;
 using Aurora.Backend.Users.Services.Models;
 using Microsoft.Extensions.Logging;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Aurora.Backend.Users.Services.Implements;
 
@@ -164,6 +166,8 @@ public class UserService : IUserService
         Result<bool> result = new Result<bool>();
         try
         {
+            var psw = HashPasswordSha256(GenerateRandomPassword());
+            
             await _unitOfWork.GetRepository<AppUser>().AddAsync(new AppUser
             {
                 Id = Guid.NewGuid(),
@@ -173,7 +177,7 @@ public class UserService : IUserService
                 DocumentNumber = clientCreateModel.DocumentNumber,
                 PhoneNumber = clientCreateModel.PhoneNumber,
                 Email = clientCreateModel.Email,
-                PasswordHash = clientCreateModel.PasswordHash,
+                PasswordHash = psw.ToUpper(),
                 GroupId = clientCreateModel.GroupId,
                 LastLogin = clientCreateModel.LastLogin,
                 Active = clientCreateModel.Active,
@@ -223,7 +227,6 @@ public class UserService : IUserService
             resultQuery.DocumentNumber = clientUpdateModel.DocumentNumber;
             resultQuery.PhoneNumber = clientUpdateModel.PhoneNumber;
             resultQuery.Email = clientUpdateModel.Email;
-            resultQuery.PasswordHash = clientUpdateModel.PasswordHash;
             resultQuery.GroupId = clientUpdateModel.GroupId;
             resultQuery.LastLogin = clientUpdateModel.LastLogin;
             resultQuery.Active = clientUpdateModel.Active;
@@ -291,6 +294,34 @@ public class UserService : IUserService
         }
             
         return result;
+    }
+    
+    public static string GenerateRandomPassword(int length = 12)
+    {
+        const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()";
+        var randomBytes = new byte[length];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomBytes);
+        }
+
+        var result = new StringBuilder(length);
+        foreach (var b in randomBytes)
+        {
+            result.Append(validChars[b % validChars.Length]);
+        }
+
+        return result.ToString();
+    }
+
+    // Cifra la contraseña con SHA256
+    public static string HashPasswordSha256(string password)
+    {
+        using var sha256 = SHA256.Create();
+        var bytes = Encoding.UTF8.GetBytes(password);
+        var hash = sha256.ComputeHash(bytes);
+
+        return Convert.ToHexString(hash); // Devuelve en formato hexadecimal (todo en mayúsculas)
     }
 
 }

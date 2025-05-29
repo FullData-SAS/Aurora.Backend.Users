@@ -14,8 +14,6 @@ public class UserCreateModel
 
     public string Email { get; set; } = null!;
 
-    public string PasswordHash { get; set; } = null!;
-
     public Guid? GroupId { get; set; }
 
     public bool? Active { get; set; }
